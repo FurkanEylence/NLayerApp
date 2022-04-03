@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using NLayer.Core.Concrete;
+using NLayer.Core.Models;
 
 namespace NLayer.Repository
 {
