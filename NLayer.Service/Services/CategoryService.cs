@@ -9,6 +9,7 @@ using NLayer.Core.Models;
 using NLayer.Core.Repositories;
 using NLayer.Core.Services;
 using NLayer.Core.UnitOfWorks;
+using NLayer.Service.Exceptions;
 
 namespace NLayer.Service.Services
 {
@@ -27,6 +28,12 @@ namespace NLayer.Service.Services
         public async Task<CustomeResponseDto<CategoryWithProductsDto>> GetCategoryByIdWithProducts(int id)
         {
             var category = await _categoryRepository.GetCategoryByIdWithProducts(id);
+
+            if (category == null)
+            {
+                throw new NotFoundException($"Category ({id}) not found");
+            }
+
             var categoryDto = _mapper.Map<CategoryWithProductsDto>(category);
 
             return CustomeResponseDto<CategoryWithProductsDto>.Success(200, categoryDto);
