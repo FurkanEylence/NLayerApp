@@ -14,24 +14,24 @@ using NLayer.Core.UnitOfWorks;
 
 namespace NLayer.Service.Services
 {
-    public class ProductServiceWithNoCaching : Service<Product>, IProductService 
+    public class ProductService : Service<Product>, IProductService 
     {
         private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public ProductServiceWithNoCaching(IUnitOfWork unitOfWork, IGenericRepository<Product> genericRepository, IProductRepository productRepository, IMapper mapper) : base(unitOfWork, genericRepository)
+        public ProductService(IUnitOfWork unitOfWork, IGenericRepository<Product> genericRepository, IProductRepository productRepository, IMapper mapper) : base(unitOfWork, genericRepository)
         {
             _unitOfWork = unitOfWork;
             _productRepository = productRepository;
             _mapper = mapper;
         }
 
-        public async Task<CustomeResponseDto<List<ProductWithCategoryDto>>> GetProductsWithCategory()
+        public async Task<List<ProductWithCategoryDto>> GetProductsWithCategory()
         {
             var products = await _productRepository.GetProductsWithCategory();
             var productsDto = _mapper.Map<List<ProductWithCategoryDto>>(products);
 
-            return CustomeResponseDto<List<ProductWithCategoryDto>>.Success(200, productsDto);
+            return productsDto;
         }
     }
 }
